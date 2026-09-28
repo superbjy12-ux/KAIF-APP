@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 화면 깨짐 방지 및 컴팩트 레이아웃 CSS
+# 2. 모바일 화면 컬럼 깨짐 방지 및 컴팩트 레이아웃 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -41,19 +41,27 @@ st.markdown("""
         color: white;
     }
     
-    /* 스마트폰 화면에서 여백을 최소화하여 카드가 깨지지 않도록 고정 */
+    /* 스마트폰 화면에서 여백을 최적화하여 꽉 차게 표시 */
     .block-container {
         padding-top: 1rem !important;
         padding-bottom: 2rem !important;
-        padding-left: 0.6rem !important;
-        padding-right: 0.6rem !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
         max-width: 480px !important;
     }
 
-    /* 3개 컬럼 내부의 카드가 한 줄에 쏙 들어가도록 크기 및 폰트 축소 최적화 */
+    /* 🌟 핵심: 모바일에서도 3개의 컬럼이 세로로 안 깨지고 가로로 나란히 유지되도록 강제 설정 */
+    [data-testid="column"] {
+        width: 33.33% !important;
+        flex: 1 1 33.33% !important;
+        min-width: 33.33% !important;
+        padding: 0.2rem !important;
+    }
+
+    /* 메뉴 카드 디자인 최적화 */
     .menu-card {
         background-color: #ffffff;
-        border-radius: 14px;
+        border-radius: 12px;
         aspect-ratio: 1 / 1.05;
         display: flex;
         flex-direction: column;
@@ -63,7 +71,7 @@ st.markdown("""
         box-shadow: 0 3px 8px rgba(0,0,0,0.3);
         border: 2px solid #cbd5e1;
         transition: all 0.2s ease-in-out;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
     .menu-card:hover {
         transform: translateY(-2px);
@@ -72,15 +80,15 @@ st.markdown("""
         background-color: #f8fafc;
     }
     .menu-card img {
-        width: 55%;
-        height: 55%;
+        width: 50%;
+        height: 50%;
         object-fit: contain;
         margin-bottom: 2px;
     }
     .menu-card span {
         color: #0f172a;
         font-weight: 800;
-        font-size: 12px; /* 스마트폰에서 세 글자 이상도 깨지지 않게 폰트 최적화 */
+        font-size: 11px;
         text-align: center;
     }
 
@@ -173,10 +181,10 @@ st.write("---")
 
 # 5. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
-    # 2x3 모바일 최적화 메뉴 카드 그리드 (간격 및 비율 고정)
+    # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 유지)
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
-        img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:24px; margin-bottom:2px;">📌</div>'
+        img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:22px; margin-bottom:2px;">📌</div>'
         html_code = f"""
         <a href="?page={page_name}" target="_self" style="text-decoration: none;">
             <div class="menu-card">
