@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 최적화 및 아이콘 사이즈 맞춤 CSS
+# 2. 모바일 최적화 및 3분의 1로 축소된 아이콘 사이즈 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -65,7 +65,7 @@ st.markdown("""
         padding: 0px !important;
     }
 
-    /* 🌟 메뉴 카드 및 모바일에 최적화된 아이콘 크기 설정 */
+    /* 🌟 메뉴 카드 및 3분의 1 수준으로 대폭 축소된 아이콘 크기 설정 */
     .menu-card {
         background-color: transparent !important;
         border: none !important;
@@ -74,23 +74,23 @@ st.markdown("""
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 6px;
+        padding: 4px;
         transition: all 0.2s ease-in-out;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
     }
     .menu-card:hover {
         transform: translateY(-2px);
     }
     .menu-card img {
-        width: 68%;   /* 스마트폰 화면에 가장 안정적이고 예쁜 아이콘 크기 비율 */
-        height: 68%;  /* 가로세로 비율 균일 유지 */
+        width: 25%;   /* 기존 대비 약 3분의 1 크기로 대폭 축소 */
+        height: 25%;  /* 가로세로 비율 균일 유지 */
         object-fit: contain;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
     }
     .menu-card span {
         color: #ffffff;
         font-weight: 700;
-        font-size: 11.5px;
+        font-size: 11px;
         text-align: center;
     }
 
