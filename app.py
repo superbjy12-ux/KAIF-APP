@@ -1,7 +1,7 @@
 import streamlit as st
 import base64
 
-# 1. 페이지 기본 설정 (모바일 최적화 레이아웃 적용)
+# 1. 페이지 기본 설정
 st.set_page_config(page_title="KAIF 2026", layout="centered", initial_sidebar_state="collapsed")
 
 # URL 쿼리스트링을 통한 페이지 라우팅 동기화
@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 화면 컬럼 깨짐 방지 및 컴팩트 레이아웃 CSS
+# 2. 480x900px 모바일 화면 고정 및 컴팩트 레이아웃 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -41,21 +41,22 @@ st.markdown("""
         color: white;
     }
     
-    /* 스마트폰 화면에서 여백을 최적화하여 꽉 차게 표시 */
+    /* 🌟 핵심: 전체 앱 컨테이너를 480px 고정 폭으로 중앙 배치하여 모바일 뷰 구현 */
     .block-container {
         padding-top: 1rem !important;
         padding-bottom: 2rem !important;
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+        padding-left: 0.6rem !important;
+        padding-right: 0.6rem !important;
         max-width: 480px !important;
+        margin: 0 auto !important;
     }
 
-    /* 🌟 핵심: 모바일에서도 3개의 컬럼이 세로로 안 깨지고 가로로 나란히 유지되도록 강제 설정 */
+    /* 3개의 컬럼이 가로로 나란히 유지되도록 강제 설정 */
     [data-testid="column"] {
         width: 33.33% !important;
         flex: 1 1 33.33% !important;
         min-width: 33.33% !important;
-        padding: 0.2rem !important;
+        padding: 0.15rem !important;
     }
 
     /* 메뉴 카드 디자인 최적화 */
@@ -80,8 +81,8 @@ st.markdown("""
         background-color: #f8fafc;
     }
     .menu-card img {
-        width: 50%;
-        height: 50%;
+        width: 48%;
+        height: 48%;
         object-fit: contain;
         margin-bottom: 2px;
     }
@@ -98,9 +99,9 @@ st.markdown("""
         color: #0f172a !important;
         font-weight: 800 !important;
         border: 2px solid #cbd5e1 !important;
-        min-height: 38px !important;
+        min-height: 36px !important;
         border-radius: 8px !important;
-        font-size: 13px !important;
+        font-size: 12px !important;
     }
     div.stButton > button:first-child:hover {
         background-color: #f1f5f9 !important;
@@ -110,37 +111,37 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 최상단 공식 플랫폼 배너 (스마트폰 크기에 맞춘 폰트 및 패딩)
+# 3. 최상단 공식 플랫폼 배너 (480x900px 모바일 규격 최적화)
 st.markdown("""
 <div style='
     text-align: center; 
     background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%); 
     padding: 10px 12px; 
     border-radius: 12px; 
-    margin-bottom: 12px; 
+    margin-bottom: 10px; 
     border: 1px solid rgba(59, 130, 246, 0.4);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 '>
-    <h2 style='color: #93c5fd; font-weight: 800; font-size: 17px; margin: 0; letter-spacing: 0.3px;'>
+    <h2 style='color: #93c5fd; font-weight: 800; font-size: 16px; margin: 0; letter-spacing: 0.3px;'>
         2026 KAIF Official mobile platform
     </h2>
 </div>
 """, unsafe_allow_html=True)
 
 # 4. 상단 헤더 영역 (로고 및 로그인 패널 컴팩트 배치)
-col_title, col_login = st.columns([1.4, 2.6])
+col_title, col_login = st.columns([1.3, 2.7])
 
 with col_title:
     try:
-        st.image("logo.png", width=140)
+        st.image("logo.png", width=130)
     except:
         st.markdown("<h4 style='color:white; margin:0;'>KAIF 2026</h4>", unsafe_allow_html=True)
     
-    st.markdown("<p style='font-size:11px; font-weight:800; color:#93c5fd; margin-top:2px; margin-bottom:8px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:10px; font-weight:800; color:#93c5fd; margin-top:2px; margin-bottom:6px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
 
 with col_login:
     if not st.session_state.logged_in:
-        st.markdown("<p style='font-size:11px; font-weight:bold; color:#93c5fd; margin-bottom:2px; text-align:right;'>👤 참가자 정보 등록 및 로그인</p>", unsafe_allow_html=True)
+        st.markdown("<p style='font-size:10px; font-weight:bold; color:#93c5fd; margin-bottom:2px; text-align:right;'>👤 참가자 정보 등록 및 로그인</p>", unsafe_allow_html=True)
         login_email = st.text_input("이메일", placeholder="이메일 / Email", label_visibility="collapsed")
         c_name, c_country = st.columns(2)
         with c_name:
@@ -159,7 +160,7 @@ with col_login:
                 st.warning("모든 정보를 입력해주세요.")
     else:
         st.markdown(f"""
-        <div style='text-align:right; background-color:rgba(30, 41, 59, 0.8); padding:6px 8px; border-radius:8px; border:1px solid #3b82f6; margin-bottom:4px;'>
+        <div style='text-align:right; background-color:rgba(30, 41, 59, 0.8); padding:5px 7px; border-radius:8px; border:1px solid #3b82f6; margin-bottom:3px;'>
             <p style='font-size:10px; color:#93c5fd; margin:0;'>계정: <b>{st.session_state.current_user}</b></p>
             <p style='font-size:10px; color:#ffffff; margin:1px 0 0 0;'>정보: <b>{st.session_state.user_name} ({st.session_state.user_country})</b></p>
         </div>
@@ -184,7 +185,7 @@ if st.session_state.active_page == "home":
     # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 유지)
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
-        img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:22px; margin-bottom:2px;">📌</div>'
+        img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:20px; margin-bottom:2px;">📌</div>'
         html_code = f"""
         <a href="?page={page_name}" target="_self" style="text-decoration: none;">
             <div class="menu-card">
