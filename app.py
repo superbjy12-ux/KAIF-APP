@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 최적화 및 카드 배경 제거 CSS
+# 2. 모바일 최적화 및 아이콘 사이즈 맞춤 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -65,7 +65,7 @@ st.markdown("""
         padding: 0px !important;
     }
 
-    /* 🌟 배경 박스(흰색 카드)를 완전히 없애고 투명하게 처리 */
+    /* 🌟 메뉴 카드 및 모바일에 최적화된 아이콘 크기 설정 */
     .menu-card {
         background-color: transparent !important;
         border: none !important;
@@ -74,18 +74,18 @@ st.markdown("""
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 4px;
+        padding: 6px;
         transition: all 0.2s ease-in-out;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
     }
     .menu-card:hover {
         transform: translateY(-2px);
     }
     .menu-card img {
-        width: 55%;
-        height: 55%;
+        width: 68%;   /* 스마트폰 화면에 가장 안정적이고 예쁜 아이콘 크기 비율 */
+        height: 68%;  /* 가로세로 비율 균일 유지 */
         object-fit: contain;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
     }
     .menu-card span {
         color: #ffffff;
@@ -184,7 +184,7 @@ st.write("---")
 
 # 5. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
-    # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 나란히 고정, 배경 없음)
+    # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 나란히 고정)
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
         img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:18px; margin-bottom:2px;">📌</div>'
