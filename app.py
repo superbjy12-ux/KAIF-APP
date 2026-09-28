@@ -32,41 +32,51 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 원페이지 초슬림 최적화 CSS
+# 2. 가로스크롤 원천 차단 및 모바일 원페이지 초슬림 최적화 CSS
 st.markdown("""
 <style>
+    /* 🌟 핵심: 모바일 브라우저에서 가로로 넘치는 현상 방지 */
+    html, body, [data-testid="stAppViewContainer"], .stApp {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+
     .stApp {
         background: linear-gradient(135deg, #030712 0%, #0f172a 50%, #1e293b 100%);
         background-attachment: fixed;
         color: white;
     }
     
-    /* 여백을 최소화하여 한 화면에 밀착 배치 */
+    /* 앱 컨테이너 폭을 스마트폰 화면에 딱 맞게 고정하고 여백 확보 */
     .block-container {
-        padding-top: 0.5rem !important;
-        padding-bottom: 1rem !important;
-        padding-left: 0.4rem !important;
-        padding-right: 0.4rem !important;
-        max-width: 440px !important;
+        padding-top: 0.6rem !important;
+        padding-bottom: 1.2rem !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
         margin: 0 auto !important;
+        overflow-x: hidden !important;
     }
 
-    /* 스트림릿 기본 세로 간격 제거 수준으로 압축 */
+    /* 스트림릿 기본 세로 간격 압축 */
     [data-testid="stVerticalBlock"] {
         gap: 0.05rem !important;
     }
 
-    /* 3개 컬럼 아이콘 가로 정렬 강제 고정 */
+    /* 3개 컬럼 아이콘 가로 정렬 고정 */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 4px !important;
+        width: 100% !important;
     }
     [data-testid="column"] {
         width: 33.33% !important;
         flex: 1 1 33.33% !important;
-        min-width: 33.33% !important;
+        min-width: 0 !important;
         padding: 0px !important;
     }
 
@@ -90,6 +100,7 @@ st.markdown("""
         border-radius: 4px !important;
         font-size: 10.5px !important;
         padding: 0px !important;
+        width: 100% !important;
     }
     div.stButton > button:first-child:hover {
         background-color: #f1f5f9 !important;
@@ -110,6 +121,7 @@ st.markdown("""
         transition: all 0.2s ease-in-out;
         margin-bottom: 2px !important;
         margin-top: 1px !important;
+        width: 100% !important;
     }
     .menu-card:hover {
         transform: translateY(-1px);
@@ -139,6 +151,7 @@ st.markdown("""
     margin-top: 2px; 
     margin-bottom: 6px; 
     border: 1px solid rgba(59, 130, 246, 0.4);
+    box-sizing: border-box;
 '>
     <h2 style='color: #93c5fd; font-weight: 800; font-size: 15px; margin: 0; letter-spacing: 0.3px;'>
         2026 KAIF Official mobile platform
