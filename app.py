@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 최적화 및 상하 세로 간격 대폭 축소 CSS
+# 2. 모바일 최적화 및 적당한 카드 간격 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -41,27 +41,27 @@ st.markdown("""
         color: white;
     }
     
-    /* 전체 앱 컨테이너 폭 고정 및 상하 패딩 최소화 */
+    /* 전체 앱 컨테이너 폭 고정 및 상하 패딩 최적화 */
     .block-container {
         padding-top: 1rem !important;
-        padding-bottom: 1.5rem !important;
+        padding-bottom: 2rem !important;
         padding-left: 0.4rem !important;
         padding-right: 0.4rem !important;
         max-width: 460px !important;
         margin: 0 auto !important;
     }
 
-    /* 스트림릿 기본 행(row) 간격 및 마진 강제 축소 */
+    /* 스트림릿 기본 행(row) 간격 설정 */
     [data-testid="stVerticalBlock"] {
-        gap: 0.2rem !important;
+        gap: 0.4rem !important;
     }
 
-    /* 스마트폰에서 컬럼 간격(gap)을 2px로 축소하여 가로로 나란히 3개 유지 */
+    /* 스마트폰에서 컬럼 간격(gap)을 4px로 주어 가로로 나란히 3개 유지 */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
-        gap: 2px !important;
+        gap: 4px !important;
     }
     [data-testid="column"] {
         width: 33.33% !important;
@@ -70,7 +70,7 @@ st.markdown("""
         padding: 0px !important;
     }
 
-    /* 메뉴 카드 컴팩트 설정 (1열과 2열 사이 수직 간격을 없애기 위해 margin 제거) */
+    /* 🌟 메뉴 카드 설정 (1열과 2열 사이에 적당한 숨통(간격)을 주기 위해 마진 부여) */
     .menu-card {
         background-color: transparent !important;
         border: none !important;
@@ -79,19 +79,19 @@ st.markdown("""
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 1px;
+        padding: 2px;
         transition: all 0.2s ease-in-out;
-        margin-bottom: 0px !important;
-        margin-top: 0px !important;
+        margin-bottom: 8px !important;
+        margin-top: 4px !important;
     }
     .menu-card:hover {
         transform: translateY(-2px);
     }
     .menu-card img {
-        width: 25%;
-        height: 25%;
+        width: 26%;
+        height: 26%;
         object-fit: contain;
-        margin-bottom: 1px;
+        margin-bottom: 3px;
     }
     .menu-card span {
         color: #ffffff;
@@ -118,7 +118,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 최상단 공식 플랫폼 배너 (상단 여백 축소)
+# 3. 최상단 공식 플랫폼 배너
 st.markdown("""
 <div style='
     text-align: center; 
@@ -191,7 +191,7 @@ st.markdown("<hr style='margin: 6px 0px;'>", unsafe_allow_html=True)
 
 # 5. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
-    # 2x3 모바일 최적화 메뉴 카드 그리드 (1열과 2열 사이 간격 최소화)
+    # 2x3 모바일 최적화 메뉴 카드 그리드 (1열과 2열 사이 적당한 간격 부여)
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
         img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:18px; margin-bottom:2px;">📌</div>'
@@ -214,7 +214,7 @@ if st.session_state.active_page == "home":
     with col3:
         render_card("Information", "icon_info.png", "info")
             
-    # 2열 아이콘 (1열과의 세로 간격을 가깝게 붙임)
+    # 2열 아이콘 (1열과 적당한 간격을 두고 배치)
     col4, col5, col6 = st.columns(3)
     with col4:
         render_card("Photo", "icon_photo.png", "photo")
