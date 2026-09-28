@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 480x900px 모바일 화면 고정 및 컴팩트 레이아웃 CSS
+# 2. 480px 모바일 고정 및 3개 컬럼 가로 강제 정렬 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -41,9 +41,9 @@ st.markdown("""
         color: white;
     }
     
-    /* 🌟 핵심: 전체 앱 컨테이너를 480px 고정 폭으로 중앙 배치하여 모바일 뷰 구현 */
+    /* 전체 앱 컨테이너를 480px 고정 폭으로 중앙 배치 및 윗여백 확보 */
     .block-container {
-        padding-top: 1rem !important;
+        padding-top: 2rem !important;
         padding-bottom: 2rem !important;
         padding-left: 0.6rem !important;
         padding-right: 0.6rem !important;
@@ -51,7 +51,12 @@ st.markdown("""
         margin: 0 auto !important;
     }
 
-    /* 3개의 컬럼이 가로로 나란히 유지되도록 강제 설정 */
+    /* 스마트폰에서도 컬럼들이 세로로 깨지지 않고 가로로 나란히 3개씩 유지되도록 강제 설정 */
+    [data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+    }
     [data-testid="column"] {
         width: 33.33% !important;
         flex: 1 1 33.33% !important;
@@ -111,18 +116,19 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 최상단 공식 플랫폼 배너 (480x900px 모바일 규격 최적화)
+# 3. 최상단 공식 플랫폼 배너 (글씨 크기 24 유지, 상하 패딩을 줄여서 박스 높이 축소)
 st.markdown("""
 <div style='
     text-align: center; 
     background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%); 
-    padding: 10px 12px; 
+    padding: 8px 12px; 
     border-radius: 12px; 
-    margin-bottom: 10px; 
+    margin-top: 25px; 
+    margin-bottom: 12px; 
     border: 1px solid rgba(59, 130, 246, 0.4);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 '>
-    <h2 style='color: #93c5fd; font-weight: 800; font-size: 16px; margin: 0; letter-spacing: 0.3px;'>
+    <h2 style='color: #93c5fd; font-weight: 800; font-size: 24px; margin: 0; letter-spacing: 0.3px;'>
         2026 KAIF Official mobile platform
     </h2>
 </div>
@@ -182,7 +188,7 @@ st.write("---")
 
 # 5. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
-    # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 유지)
+    # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 나란히 고정)
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
         img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:20px; margin-bottom:2px;">📌</div>'
