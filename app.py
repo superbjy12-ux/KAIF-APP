@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 480px 모바일 고정 및 찌그러짐 방지 CSS
+# 2. 모바일 최적화 및 컴팩트 로그인 박스 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -41,22 +41,22 @@ st.markdown("""
         color: white;
     }
     
-    /* 🌟 핵심: 480px 모바일 규격 고정 및 윗여백 확보 (배너 잘림 방지) */
+    /* 전체 앱 컨테이너 폭 고정 및 여백 최적화 */
     .block-container {
-        padding-top: 2rem !important;
+        padding-top: 1.2rem !important;
         padding-bottom: 2rem !important;
-        padding-left: 0.6rem !important;
-        padding-right: 0.6rem !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
         max-width: 480px !important;
         margin: 0 auto !important;
     }
 
     /* 스트림릿 기본 세로 블록 간격 최소화 */
     [data-testid="stVerticalBlock"] {
-        gap: 0.15rem !important;
+        gap: 0.1rem !important;
     }
 
-    /* 스마트폰에서 컬럼 간격(gap)을 4px로 주어 가로로 나란히 3개 유지 */
+    /* 3개 컬럼 아이콘 그리드 가로 정렬 고정 */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
@@ -70,7 +70,35 @@ st.markdown("""
         padding: 0px !important;
     }
 
-    /* 메뉴 카드 디자인 (찌그러짐 방지 및 균일한 비율 유지) */
+    /* 🌟 로그인 입력창(input) 및 텍스트박스 높이/폰트 대폭 축소 */
+    input {
+        min-height: 28px !important;
+        height: 28px !important;
+        font-size: 11px !important;
+        padding: 2px 6px !important;
+        border-radius: 6px !important;
+    }
+    
+    /* 로그인/등록 버튼 컴팩트화 */
+    div.stButton > button:first-child {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        font-weight: 800 !important;
+        border: 1px solid #cbd5e1 !important;
+        min-height: 30px !important;
+        height: 30px !important;
+        border-radius: 6px !important;
+        font-size: 11px !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    div.stButton > button:first-child:hover {
+        background-color: #f1f5f9 !important;
+        border-color: #3b82f6 !important;
+        color: #1d4ed8 !important;
+    }
+
+    /* 메뉴 카드 디자인 */
     .menu-card {
         background-color: transparent !important;
         border: none !important;
@@ -88,8 +116,8 @@ st.markdown("""
         transform: translateY(-2px);
     }
     .menu-card img {
-        width: 35%;
-        height: 35%;
+        width: 32%;
+        height: 32%;
         object-fit: contain;
         margin-bottom: 3px;
     }
@@ -99,92 +127,78 @@ st.markdown("""
         font-size: 11px;
         text-align: center;
     }
-
-    /* 버튼 및 입력창 모바일 맞춤형 디자인 */
-    div.stButton > button:first-child {
-        background-color: #ffffff !important;
-        color: #0f172a !important;
-        font-weight: 800 !important;
-        border: 2px solid #cbd5e1 !important;
-        min-height: 34px !important;
-        border-radius: 8px !important;
-        font-size: 11px !important;
-    }
-    div.stButton > button:first-child:hover {
-        background-color: #f1f5f9 !important;
-        border-color: #3b82f6 !important;
-        color: #1d4ed8 !important;
-    }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 최상단 공식 플랫폼 배너 (윗여백 및 글씨 크기 18px 안정화)
+# 3. 최상단 공식 플랫폼 배너
 st.markdown("""
 <div style='
     text-align: center; 
     background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%); 
-    padding: 10px 10px; 
+    padding: 8px 10px; 
     border-radius: 12px; 
-    margin-top: 10px; 
+    margin-top: 5px; 
     margin-bottom: 10px; 
     border: 1px solid rgba(59, 130, 246, 0.4);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 '>
-    <h2 style='color: #93c5fd; font-weight: 800; font-size: 18px; margin: 0; letter-spacing: 0.3px; word-break: keep-all;'>
+    <h2 style='color: #93c5fd; font-weight: 800; font-size: 17px; margin: 0; letter-spacing: 0.3px; word-break: keep-all;'>
         2026 KAIF Official mobile platform
     </h2>
 </div>
 """, unsafe_allow_html=True)
 
-# 4. 상단 로고 및 웰컴 문구 영역
-try:
-    st.image("logo.png", width=120)
-except:
-    st.markdown("<h4 style='color:white; margin:0;'>KAIF 2026</h4>", unsafe_allow_html=True)
+# 4. 🌟 상단 배치: 왼쪽은 로고 / 오른쪽은 컴팩트 로그인 창 정렬
+col_logo, col_logbox = st.columns([1.2, 2.8])
 
-st.markdown("<p style='font-size:10px; font-weight:800; color:#93c5fd; margin-top:1px; margin-bottom:4px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
+with col_logo:
+    try:
+        st.image("logo.png", width=125)
+    except:
+        st.markdown("<h4 style='color:white; margin:0;'>KAIF 2026</h4>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:9.5px; font-weight:800; color:#93c5fd; margin-top:2px; margin-bottom:0px;'>WELCOME TO KAIF</p>", unsafe_allow_html=True)
 
-# 5. 로그인 및 참가자 정보 입력 영역
-if not st.session_state.logged_in:
-    st.markdown("<p style='font-size:10px; font-weight:bold; color:#93c5fd; margin-bottom:2px;'>👤 참가자 정보 등록 및 로그인</p>", unsafe_allow_html=True)
-    login_email = st.text_input("이메일", placeholder="이메일 / Email", label_visibility="collapsed")
-    c_name, c_country = st.columns(2)
-    with c_name:
-        input_name = st.text_input("성명", placeholder="성명 / Name", label_visibility="collapsed")
-    with c_country:
-        input_country = st.text_input("국가", placeholder="국가 / Country", label_visibility="collapsed")
-        
-    if st.button("로그인 / 등록 완료", use_container_width=True):
-        if login_email and input_name and input_country:
-            st.session_state.logged_in = True
-            st.session_state.current_user = login_email
-            st.session_state.user_name = input_name
-            st.session_state.user_country = input_country
-            st.rerun()
-        else:
-            st.warning("모든 정보를 입력해주세요.")
-else:
-    st.markdown(f"""
-    <div style='background-color:rgba(30, 41, 59, 0.8); padding:5px 8px; border-radius:8px; border:1px solid #3b82f6; margin-bottom:6px;'>
-        <p style='font-size:10px; color:#93c5fd; margin:0;'>계정: <b>{st.session_state.current_user}</b></p>
-        <p style='font-size:10px; color:#ffffff; margin:1px 0 0 0;'>정보: <b>{st.session_state.user_name} ({st.session_state.user_country})</b></p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    if st.session_state.current_user == "superbjy12@gmail.com":
-        if st.button("🛡️ 관리자 대시보드", use_container_width=True):
-            st.session_state.active_page = "admin"
-            st.rerun()
+with col_logbox:
+    if not st.session_state.logged_in:
+        st.markdown("<p style='font-size:9.5px; font-weight:bold; color:#93c5fd; margin-bottom:1px; text-align:right;'>👤 참가자 정보 등록 및 로그인</p>", unsafe_allow_html=True)
+        login_email = st.text_input("이메일", placeholder="이메일 / Email", label_visibility="collapsed")
+        c_name, c_country = st.columns(2)
+        with c_name:
+            input_name = st.text_input("성명", placeholder="성명 / Name", label_visibility="collapsed")
+        with c_country:
+            input_country = st.text_input("국가", placeholder="국가 / Country", label_visibility="collapsed")
             
-    if st.button("Log Out", use_container_width=True):
-        st.session_state.logged_in = False
-        st.session_state.current_user = ""
-        st.session_state.user_name = ""
-        st.session_state.user_country = ""
-        st.rerun()
+        if st.button("로그인 / 등록 완료", use_container_width=True):
+            if login_email and input_name and input_country:
+                st.session_state.logged_in = True
+                st.session_state.current_user = login_email
+                st.session_state.user_name = input_name
+                st.session_state.user_country = input_country
+                st.rerun()
+            else:
+                st.warning("모든 정보를 입력해주세요.")
+    else:
+        st.markdown(f"""
+        <div style='text-align:right; background-color:rgba(30, 41, 59, 0.8); padding:4px 6px; border-radius:6px; border:1px solid #3b82f6; margin-bottom:2px;'>
+            <p style='font-size:9.5px; color:#93c5fd; margin:0;'>계정: <b>{st.session_state.current_user}</b></p>
+            <p style='font-size:9.5px; color:#ffffff; margin:1px 0 0 0;'>정보: <b>{st.session_state.user_name} ({st.session_state.user_country})</b></p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        if st.session_state.current_user == "superbjy12@gmail.com":
+            if st.button("🛡️ 관리자 대시보드", use_container_width=True):
+                st.session_state.active_page = "admin"
+                st.rerun()
+                
+        if st.button("Log Out", use_container_width=True):
+            st.session_state.logged_in = False
+            st.session_state.current_user = ""
+            st.session_state.user_name = ""
+            st.session_state.user_country = ""
+            st.rerun()
 
-# 구분선
-st.markdown("<hr style='margin: 8px 0px;'>", unsafe_allow_html=True)
+# 5. 🌟 아이콘 메뉴 위쪽에 적당한 여유 공간(간격)을 주기 위한 구분선 및 마진 확보
+st.markdown("<hr style='margin: 14px 0px 14px 0px; border-color: rgba(255,255,255,0.15);'>", unsafe_allow_html=True)
 
 # 6. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
