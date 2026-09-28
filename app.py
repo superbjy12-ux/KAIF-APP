@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 최적화 및 빈 공간 제거 CSS
+# 2. 모바일 최적화 및 간격 제어 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -43,25 +43,25 @@ st.markdown("""
     
     /* 전체 앱 컨테이너 폭 고정 및 상하 패딩 최적화 */
     .block-container {
-        padding-top: 0.8rem !important;
+        padding-top: 1rem !important;
         padding-bottom: 2rem !important;
-        padding-left: 0.4rem !important;
-        padding-right: 0.4rem !important;
+        padding-left: 0.6rem !important;
+        padding-right: 0.6rem !important;
         max-width: 460px !important;
         margin: 0 auto !important;
     }
 
     /* 스트림릿 기본 세로 블록 간격 최소화 */
     [data-testid="stVerticalBlock"] {
-        gap: 0.1rem !important;
+        gap: 0.2rem !important;
     }
 
-    /* 스마트폰에서 컬럼 간격(gap)을 4px로 주어 가로로 나란히 3개 유지 */
+    /* 스마트폰에서 컬럼 간격(gap)을 6px로 주어 가로로 나란히 3개 유지 */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
-        gap: 4px !important;
+        gap: 6px !important;
     }
     [data-testid="column"] {
         width: 33.33% !important;
@@ -81,22 +81,22 @@ st.markdown("""
         justify-content: center;
         padding: 2px;
         transition: all 0.2s ease-in-out;
-        margin-bottom: 6px !important;
-        margin-top: 2px !important;
+        margin-bottom: 4px !important;
+        margin-top: 4px !important;
     }
     .menu-card:hover {
         transform: translateY(-2px);
     }
     .menu-card img {
-        width: 26%;
-        height: 26%;
+        width: 32%;
+        height: 32%;
         object-fit: contain;
-        margin-bottom: 3px;
+        margin-bottom: 4px;
     }
     .menu-card span {
         color: #ffffff;
         font-weight: 700;
-        font-size: 11px;
+        font-size: 11.5px;
         text-align: center;
     }
 
@@ -106,9 +106,9 @@ st.markdown("""
         color: #0f172a !important;
         font-weight: 800 !important;
         border: 2px solid #cbd5e1 !important;
-        min-height: 32px !important;
+        min-height: 34px !important;
         border-radius: 8px !important;
-        font-size: 11px !important;
+        font-size: 11.5px !important;
     }
     div.stButton > button:first-child:hover {
         background-color: #f1f5f9 !important;
@@ -125,8 +125,8 @@ st.markdown("""
     background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%); 
     padding: 8px 10px; 
     border-radius: 12px; 
-    margin-top: 2px; 
-    margin-bottom: 4px; 
+    margin-top: 5px; 
+    margin-bottom: 8px; 
     border: 1px solid rgba(59, 130, 246, 0.4);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 '>
@@ -136,16 +136,17 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 4. 상단 헤더 영역 (좌우 컬럼 높이 차이로 인한 빈 공간 발생을 막기 위해 요소를 위아래로 깔끔하게 배치)
+# 4. 상단 로고 및 웰컴 문구 영역 (컴팩트 배치)
 try:
-    st.image("logo.png", width=110)
+    st.image("logo.png", width=130)
 except:
     st.markdown("<h4 style='color:white; margin:0;'>KAIF 2026</h4>", unsafe_allow_html=True)
 
-st.markdown("<p style='font-size:10px; font-weight:800; color:#93c5fd; margin-top:1px; margin-bottom:4px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
+st.markdown("<p style='font-size:10px; font-weight:800; color:#93c5fd; margin-top:1px; margin-bottom:6px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
 
+# 5. 로그인 및 참가자 정보 입력 영역 (세로로 슬림하게 배치하여 빈 공간 원천 차단)
 if not st.session_state.logged_in:
-    st.markdown("<p style='font-size:10px; font-weight:bold; color:#93c5fd; margin-bottom:1px;'>👤 참가자 정보 등록 및 로그인</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:10px; font-weight:bold; color:#93c5fd; margin-bottom:2px;'>👤 참가자 정보 등록 및 로그인</p>", unsafe_allow_html=True)
     login_email = st.text_input("이메일", placeholder="이메일 / Email", label_visibility="collapsed")
     c_name, c_country = st.columns(2)
     with c_name:
@@ -164,7 +165,7 @@ if not st.session_state.logged_in:
             st.warning("모든 정보를 입력해주세요.")
 else:
     st.markdown(f"""
-    <div style='background-color:rgba(30, 41, 59, 0.8); padding:4px 6px; border-radius:6px; border:1px solid #3b82f6; margin-bottom:4px;'>
+    <div style='background-color:rgba(30, 41, 59, 0.8); padding:5px 8px; border-radius:8px; border:1px solid #3b82f6; margin-bottom:6px;'>
         <p style='font-size:10px; color:#93c5fd; margin:0;'>계정: <b>{st.session_state.current_user}</b></p>
         <p style='font-size:10px; color:#ffffff; margin:1px 0 0 0;'>정보: <b>{st.session_state.user_name} ({st.session_state.user_country})</b></p>
     </div>
@@ -183,11 +184,11 @@ else:
         st.rerun()
 
 # 구분선
-st.markdown("<hr style='margin: 8px 0px;'>", unsafe_allow_html=True)
+st.markdown("<hr style='margin: 10px 0px;'>", unsafe_allow_html=True)
 
-# 5. 화면 라우팅 (메인 홈 vs 상세 페이지)
+# 6. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
-    # 2x3 모바일 최적화 메뉴 카드 그리드
+    # 2x3 모바일 최적화 메뉴 카드 그리드 (로그인창 바로 밑에 바짝 밀착)
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
         img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:18px; margin-bottom:2px;">📌</div>'
