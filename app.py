@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 최적화 및 3분의 1로 축소된 아이콘 사이즈 CSS
+# 2. 모바일 최적화 및 아이콘 간격 대폭 축소 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -43,20 +43,20 @@ st.markdown("""
     
     /* 전체 앱 컨테이너 폭 고정 및 여백 최적화 */
     .block-container {
-        padding-top: 1.5rem !important;
-        padding-bottom: 2rem !important;
+        padding-top: 1.2rem !important;
+        padding-bottom: 1.5rem !important;
         padding-left: 0.4rem !important;
         padding-right: 0.4rem !important;
         max-width: 460px !important;
         margin: 0 auto !important;
     }
 
-    /* 스마트폰에서 컬럼들이 세로로 깨지지 않고 가로로 나란히 3개씩 유지되도록 강제 설정 */
+    /* 🌟 스마트폰에서 컬럼 간격(gap)을 2px로 대폭 축소하여 촘촘하게 정렬 */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
-        gap: 6px !important;
+        gap: 2px !important;
     }
     [data-testid="column"] {
         width: 33.33% !important;
@@ -65,7 +65,7 @@ st.markdown("""
         padding: 0px !important;
     }
 
-    /* 🌟 메뉴 카드 및 3분의 1 수준으로 대폭 축소된 아이콘 크기 설정 */
+    /* 메뉴 카드 및 상하 여백(margin-bottom)을 대폭 줄여 간격 좁히기 */
     .menu-card {
         background-color: transparent !important;
         border: none !important;
@@ -74,18 +74,18 @@ st.markdown("""
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 4px;
+        padding: 2px;
         transition: all 0.2s ease-in-out;
-        margin-bottom: 2px;
+        margin-bottom: 0px !important;
     }
     .menu-card:hover {
         transform: translateY(-2px);
     }
     .menu-card img {
-        width: 25%;   /* 기존 대비 약 3분의 1 크기로 대폭 축소 */
-        height: 25%;  /* 가로세로 비율 균일 유지 */
+        width: 25%;
+        height: 25%;
         object-fit: contain;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
     }
     .menu-card span {
         color: #ffffff;
@@ -112,15 +112,15 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 최상단 공식 플랫폼 배너
+# 3. 최상단 공식 플랫폼 배너 (상단 여백 15px로 조정)
 st.markdown("""
 <div style='
     text-align: center; 
     background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%); 
-    padding: 10px 10px; 
+    padding: 8px 10px; 
     border-radius: 12px; 
-    margin-top: 20px; 
-    margin-bottom: 12px; 
+    margin-top: 15px; 
+    margin-bottom: 8px; 
     border: 1px solid rgba(59, 130, 246, 0.4);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 '>
@@ -139,7 +139,7 @@ with col_title:
     except:
         st.markdown("<h4 style='color:white; margin:0;'>KAIF 2026</h4>", unsafe_allow_html=True)
     
-    st.markdown("<p style='font-size:10px; font-weight:800; color:#93c5fd; margin-top:2px; margin-bottom:6px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:10px; font-weight:800; color:#93c5fd; margin-top:2px; margin-bottom:4px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
 
 with col_login:
     if not st.session_state.logged_in:
@@ -162,7 +162,7 @@ with col_login:
                 st.warning("모든 정보를 입력해주세요.")
     else:
         st.markdown(f"""
-        <div style='text-align:right; background-color:rgba(30, 41, 59, 0.8); padding:5px 7px; border-radius:8px; border:1px solid #3b82f6; margin-bottom:3px;'>
+        <div style='text-align:right; background-color:rgba(30, 41, 59, 0.8); padding:4px 6px; border-radius:8px; border:1px solid #3b82f6; margin-bottom:2px;'>
             <p style='font-size:10px; color:#93c5fd; margin:0;'>계정: <b>{st.session_state.current_user}</b></p>
             <p style='font-size:10px; color:#ffffff; margin:1px 0 0 0;'>정보: <b>{st.session_state.user_name} ({st.session_state.user_country})</b></p>
         </div>
@@ -184,7 +184,7 @@ st.write("---")
 
 # 5. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
-    # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 나란히 고정)
+    # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 나란히 고정 및 간격 축소)
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
         img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:18px; margin-bottom:2px;">📌</div>'
