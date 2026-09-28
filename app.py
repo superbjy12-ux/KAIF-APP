@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 480px 모바일 고정 및 3개 컬럼 가로 강제 정렬 CSS
+# 2. 모바일 최적화 및 카드/배너 정렬 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -41,30 +41,31 @@ st.markdown("""
         color: white;
     }
     
-    /* 전체 앱 컨테이너를 480px 고정 폭으로 중앙 배치 및 윗여백 확보 */
+    /* 전체 앱 컨테이너 폭 고정 및 여백 최적화 */
     .block-container {
-        padding-top: 2rem !important;
+        padding-top: 1.5rem !important;
         padding-bottom: 2rem !important;
-        padding-left: 0.6rem !important;
-        padding-right: 0.6rem !important;
-        max-width: 480px !important;
+        padding-left: 0.4rem !important;
+        padding-right: 0.4rem !important;
+        max-width: 460px !important;
         margin: 0 auto !important;
     }
 
-    /* 스마트폰에서도 컬럼들이 세로로 깨지지 않고 가로로 나란히 3개씩 유지되도록 강제 설정 */
+    /* 스마트폰에서 컬럼들이 세로로 깨지지 않고 가로로 나란히 3개씩 유지되도록 강제 설정 */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
+        gap: 6px !important;
     }
     [data-testid="column"] {
         width: 33.33% !important;
         flex: 1 1 33.33% !important;
         min-width: 33.33% !important;
-        padding: 0.15rem !important;
+        padding: 0px !important;
     }
 
-    /* 메뉴 카드 디자인 최적화 */
+    /* 메뉴 카드 디자인 최적화 (모바일 화면에 쏙 들어가게 조정) */
     .menu-card {
         background-color: #ffffff;
         border-radius: 12px;
@@ -73,7 +74,7 @@ st.markdown("""
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 4px;
+        padding: 2px;
         box-shadow: 0 3px 8px rgba(0,0,0,0.3);
         border: 2px solid #cbd5e1;
         transition: all 0.2s ease-in-out;
@@ -86,15 +87,15 @@ st.markdown("""
         background-color: #f8fafc;
     }
     .menu-card img {
-        width: 48%;
-        height: 48%;
+        width: 46%;
+        height: 46%;
         object-fit: contain;
         margin-bottom: 2px;
     }
     .menu-card span {
         color: #0f172a;
         font-weight: 800;
-        font-size: 11px;
+        font-size: 10.5px;
         text-align: center;
     }
 
@@ -104,9 +105,9 @@ st.markdown("""
         color: #0f172a !important;
         font-weight: 800 !important;
         border: 2px solid #cbd5e1 !important;
-        min-height: 36px !important;
+        min-height: 34px !important;
         border-radius: 8px !important;
-        font-size: 12px !important;
+        font-size: 11.5px !important;
     }
     div.stButton > button:first-child:hover {
         background-color: #f1f5f9 !important;
@@ -116,19 +117,19 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 최상단 공식 플랫폼 배너 (글씨 크기 24 유지, 상하 패딩을 줄여서 박스 높이 축소)
+# 3. 최상단 공식 플랫폼 배너 (스마트폰 화면에 잘리지 않도록 글씨 크기 18px 및 여백 적용)
 st.markdown("""
 <div style='
     text-align: center; 
     background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%); 
-    padding: 8px 12px; 
+    padding: 10px 10px; 
     border-radius: 12px; 
-    margin-top: 25px; 
+    margin-top: 20px; 
     margin-bottom: 12px; 
     border: 1px solid rgba(59, 130, 246, 0.4);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 '>
-    <h2 style='color: #93c5fd; font-weight: 800; font-size: 24px; margin: 0; letter-spacing: 0.3px;'>
+    <h2 style='color: #93c5fd; font-weight: 800; font-size: 18px; margin: 0; letter-spacing: 0.3px; word-break: keep-all;'>
         2026 KAIF Official mobile platform
     </h2>
 </div>
@@ -139,7 +140,7 @@ col_title, col_login = st.columns([1.3, 2.7])
 
 with col_title:
     try:
-        st.image("logo.png", width=130)
+        st.image("logo.png", width=120)
     except:
         st.markdown("<h4 style='color:white; margin:0;'>KAIF 2026</h4>", unsafe_allow_html=True)
     
@@ -191,7 +192,7 @@ if st.session_state.active_page == "home":
     # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 나란히 고정)
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
-        img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:20px; margin-bottom:2px;">📌</div>'
+        img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:18px; margin-bottom:2px;">📌</div>'
         html_code = f"""
         <a href="?page={page_name}" target="_self" style="text-decoration: none;">
             <div class="menu-card">
