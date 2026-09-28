@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 최적화 및 아이콘 간격 대폭 축소 CSS
+# 2. 모바일 최적화 및 상하 세로 간격 대폭 축소 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -41,9 +41,9 @@ st.markdown("""
         color: white;
     }
     
-    /* 전체 앱 컨테이너 폭 고정 및 여백 최적화 */
+    /* 전체 앱 컨테이너 폭 고정 및 상하 패딩 최소화 */
     .block-container {
-        padding-top: 1.2rem !important;
+        padding-top: 1rem !important;
         padding-bottom: 1.5rem !important;
         padding-left: 0.4rem !important;
         padding-right: 0.4rem !important;
@@ -51,7 +51,12 @@ st.markdown("""
         margin: 0 auto !important;
     }
 
-    /* 🌟 스마트폰에서 컬럼 간격(gap)을 2px로 대폭 축소하여 촘촘하게 정렬 */
+    /* 스트림릿 기본 행(row) 간격 및 마진 강제 축소 */
+    [data-testid="stVerticalBlock"] {
+        gap: 0.2rem !important;
+    }
+
+    /* 스마트폰에서 컬럼 간격(gap)을 2px로 축소하여 가로로 나란히 3개 유지 */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
@@ -65,7 +70,7 @@ st.markdown("""
         padding: 0px !important;
     }
 
-    /* 메뉴 카드 및 상하 여백(margin-bottom)을 대폭 줄여 간격 좁히기 */
+    /* 메뉴 카드 컴팩트 설정 (1열과 2열 사이 수직 간격을 없애기 위해 margin 제거) */
     .menu-card {
         background-color: transparent !important;
         border: none !important;
@@ -74,9 +79,10 @@ st.markdown("""
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 2px;
+        padding: 1px;
         transition: all 0.2s ease-in-out;
         margin-bottom: 0px !important;
+        margin-top: 0px !important;
     }
     .menu-card:hover {
         transform: translateY(-2px);
@@ -85,7 +91,7 @@ st.markdown("""
         width: 25%;
         height: 25%;
         object-fit: contain;
-        margin-bottom: 2px;
+        margin-bottom: 1px;
     }
     .menu-card span {
         color: #ffffff;
@@ -100,9 +106,9 @@ st.markdown("""
         color: #0f172a !important;
         font-weight: 800 !important;
         border: 2px solid #cbd5e1 !important;
-        min-height: 34px !important;
+        min-height: 32px !important;
         border-radius: 8px !important;
-        font-size: 11.5px !important;
+        font-size: 11px !important;
     }
     div.stButton > button:first-child:hover {
         background-color: #f1f5f9 !important;
@@ -112,15 +118,15 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 최상단 공식 플랫폼 배너 (상단 여백 15px로 조정)
+# 3. 최상단 공식 플랫폼 배너 (상단 여백 축소)
 st.markdown("""
 <div style='
     text-align: center; 
     background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%); 
     padding: 8px 10px; 
     border-radius: 12px; 
-    margin-top: 15px; 
-    margin-bottom: 8px; 
+    margin-top: 5px; 
+    margin-bottom: 6px; 
     border: 1px solid rgba(59, 130, 246, 0.4);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 '>
@@ -135,15 +141,15 @@ col_title, col_login = st.columns([1.3, 2.7])
 
 with col_title:
     try:
-        st.image("logo.png", width=120)
+        st.image("logo.png", width=110)
     except:
         st.markdown("<h4 style='color:white; margin:0;'>KAIF 2026</h4>", unsafe_allow_html=True)
     
-    st.markdown("<p style='font-size:10px; font-weight:800; color:#93c5fd; margin-top:2px; margin-bottom:4px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:10px; font-weight:800; color:#93c5fd; margin-top:1px; margin-bottom:2px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
 
 with col_login:
     if not st.session_state.logged_in:
-        st.markdown("<p style='font-size:10px; font-weight:bold; color:#93c5fd; margin-bottom:2px; text-align:right;'>👤 참가자 정보 등록 및 로그인</p>", unsafe_allow_html=True)
+        st.markdown("<p style='font-size:10px; font-weight:bold; color:#93c5fd; margin-bottom:1px; text-align:right;'>👤 참가자 정보 등록 및 로그인</p>", unsafe_allow_html=True)
         login_email = st.text_input("이메일", placeholder="이메일 / Email", label_visibility="collapsed")
         c_name, c_country = st.columns(2)
         with c_name:
@@ -162,7 +168,7 @@ with col_login:
                 st.warning("모든 정보를 입력해주세요.")
     else:
         st.markdown(f"""
-        <div style='text-align:right; background-color:rgba(30, 41, 59, 0.8); padding:4px 6px; border-radius:8px; border:1px solid #3b82f6; margin-bottom:2px;'>
+        <div style='text-align:right; background-color:rgba(30, 41, 59, 0.8); padding:3px 5px; border-radius:6px; border:1px solid #3b82f6; margin-bottom:2px;'>
             <p style='font-size:10px; color:#93c5fd; margin:0;'>계정: <b>{st.session_state.current_user}</b></p>
             <p style='font-size:10px; color:#ffffff; margin:1px 0 0 0;'>정보: <b>{st.session_state.user_name} ({st.session_state.user_country})</b></p>
         </div>
@@ -180,11 +186,12 @@ with col_login:
             st.session_state.user_country = ""
             st.rerun()
 
-st.write("---")
+# 구분선 여백 축소
+st.markdown("<hr style='margin: 6px 0px;'>", unsafe_allow_html=True)
 
 # 5. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
-    # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 나란히 고정 및 간격 축소)
+    # 2x3 모바일 최적화 메뉴 카드 그리드 (1열과 2열 사이 간격 최소화)
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
         img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:18px; margin-bottom:2px;">📌</div>'
@@ -198,6 +205,7 @@ if st.session_state.active_page == "home":
         """
         st.markdown(html_code, unsafe_allow_html=True)
 
+    # 1열 아이콘
     col1, col2, col3 = st.columns(3)
     with col1:
         render_card("Program", "icon_program.png", "program")
@@ -206,6 +214,7 @@ if st.session_state.active_page == "home":
     with col3:
         render_card("Information", "icon_info.png", "info")
             
+    # 2열 아이콘 (1열과의 세로 간격을 가깝게 붙임)
     col4, col5, col6 = st.columns(3)
     with col4:
         render_card("Photo", "icon_photo.png", "photo")
