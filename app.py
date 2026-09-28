@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 최적화 및 간격 제어 CSS
+# 2. 480px 모바일 고정 및 찌그러짐 방지 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -41,27 +41,27 @@ st.markdown("""
         color: white;
     }
     
-    /* 전체 앱 컨테이너 폭 고정 및 상하 패딩 최적화 */
+    /* 🌟 핵심: 480px 모바일 규격 고정 및 윗여백 확보 (배너 잘림 방지) */
     .block-container {
-        padding-top: 1rem !important;
+        padding-top: 2rem !important;
         padding-bottom: 2rem !important;
         padding-left: 0.6rem !important;
         padding-right: 0.6rem !important;
-        max-width: 460px !important;
+        max-width: 480px !important;
         margin: 0 auto !important;
     }
 
     /* 스트림릿 기본 세로 블록 간격 최소화 */
     [data-testid="stVerticalBlock"] {
-        gap: 0.2rem !important;
+        gap: 0.15rem !important;
     }
 
-    /* 스마트폰에서 컬럼 간격(gap)을 6px로 주어 가로로 나란히 3개 유지 */
+    /* 스마트폰에서 컬럼 간격(gap)을 4px로 주어 가로로 나란히 3개 유지 */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
-        gap: 6px !important;
+        gap: 4px !important;
     }
     [data-testid="column"] {
         width: 33.33% !important;
@@ -70,7 +70,7 @@ st.markdown("""
         padding: 0px !important;
     }
 
-    /* 메뉴 카드 디자인 */
+    /* 메뉴 카드 디자인 (찌그러짐 방지 및 균일한 비율 유지) */
     .menu-card {
         background-color: transparent !important;
         border: none !important;
@@ -82,21 +82,21 @@ st.markdown("""
         padding: 2px;
         transition: all 0.2s ease-in-out;
         margin-bottom: 4px !important;
-        margin-top: 4px !important;
+        margin-top: 2px !important;
     }
     .menu-card:hover {
         transform: translateY(-2px);
     }
     .menu-card img {
-        width: 32%;
-        height: 32%;
+        width: 35%;
+        height: 35%;
         object-fit: contain;
-        margin-bottom: 4px;
+        margin-bottom: 3px;
     }
     .menu-card span {
         color: #ffffff;
         font-weight: 700;
-        font-size: 11.5px;
+        font-size: 11px;
         text-align: center;
     }
 
@@ -108,7 +108,7 @@ st.markdown("""
         border: 2px solid #cbd5e1 !important;
         min-height: 34px !important;
         border-radius: 8px !important;
-        font-size: 11.5px !important;
+        font-size: 11px !important;
     }
     div.stButton > button:first-child:hover {
         background-color: #f1f5f9 !important;
@@ -118,15 +118,15 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 최상단 공식 플랫폼 배너
+# 3. 최상단 공식 플랫폼 배너 (윗여백 및 글씨 크기 18px 안정화)
 st.markdown("""
 <div style='
     text-align: center; 
     background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%); 
-    padding: 8px 10px; 
+    padding: 10px 10px; 
     border-radius: 12px; 
-    margin-top: 5px; 
-    margin-bottom: 8px; 
+    margin-top: 10px; 
+    margin-bottom: 10px; 
     border: 1px solid rgba(59, 130, 246, 0.4);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 '>
@@ -136,15 +136,15 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 4. 상단 로고 및 웰컴 문구 영역 (컴팩트 배치)
+# 4. 상단 로고 및 웰컴 문구 영역
 try:
-    st.image("logo.png", width=130)
+    st.image("logo.png", width=120)
 except:
     st.markdown("<h4 style='color:white; margin:0;'>KAIF 2026</h4>", unsafe_allow_html=True)
 
-st.markdown("<p style='font-size:10px; font-weight:800; color:#93c5fd; margin-top:1px; margin-bottom:6px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
+st.markdown("<p style='font-size:10px; font-weight:800; color:#93c5fd; margin-top:1px; margin-bottom:4px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
 
-# 5. 로그인 및 참가자 정보 입력 영역 (세로로 슬림하게 배치하여 빈 공간 원천 차단)
+# 5. 로그인 및 참가자 정보 입력 영역
 if not st.session_state.logged_in:
     st.markdown("<p style='font-size:10px; font-weight:bold; color:#93c5fd; margin-bottom:2px;'>👤 참가자 정보 등록 및 로그인</p>", unsafe_allow_html=True)
     login_email = st.text_input("이메일", placeholder="이메일 / Email", label_visibility="collapsed")
@@ -184,11 +184,11 @@ else:
         st.rerun()
 
 # 구분선
-st.markdown("<hr style='margin: 10px 0px;'>", unsafe_allow_html=True)
+st.markdown("<hr style='margin: 8px 0px;'>", unsafe_allow_html=True)
 
 # 6. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
-    # 2x3 모바일 최적화 메뉴 카드 그리드 (로그인창 바로 밑에 바짝 밀착)
+    # 2x3 모바일 최적화 메뉴 카드 그리드
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
         img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:18px; margin-bottom:2px;">📌</div>'
