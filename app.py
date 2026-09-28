@@ -1,7 +1,7 @@
 import streamlit as st
 import base64
 
-# 1. 페이지 기본 설정
+# 1. 페이지 기본 설정 (모바일 최적화 레이아웃 적용)
 st.set_page_config(page_title="KAIF 2026", layout="centered", initial_sidebar_state="collapsed")
 
 # URL 쿼리스트링을 통한 페이지 라우팅 동기화
@@ -23,7 +23,7 @@ if 'db_data' not in st.session_state:
 if 'active_page' not in st.session_state:
     st.session_state.active_page = "home"
 
-# 이미지 파일을 Base64로 변환하는 함수 (아이콘용)
+# 이미지 파일을 Base64로 변환하는 함수
 def get_base64_image(image_path):
     try:
         with open(image_path, "rb") as f:
@@ -32,93 +32,112 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 커스텀 CSS 디자인
+# 2. 모바일 최적화 커스텀 CSS 디자인
 st.markdown("""
 <style>
+    /* 전체 배경 그라데이션 및 모바일 환경 최적 여백 */
     .stApp {
         background: linear-gradient(135deg, #030712 0%, #0f172a 50%, #1e293b 100%);
         background-attachment: fixed;
         color: white;
     }
-    /* 클릭 가능한 둥근 사각형 아이콘 카드 디자인 */
+    
+    /* 스마트폰 화면에서 좌우 여백을 줄여 콘텐츠가 꽉 차게 보이도록 설정 */
+    .block-container {
+        padding-top: 1.5rem !important;
+        padding-bottom: 2rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        max-width: 480px !important; /* 스마트폰 표준 폭에 맞춤 */
+    }
+
+    /* 클릭 가능한 모바일 맞춤형 둥근 사각형 아이콘 카드 */
     .menu-card {
         background-color: #ffffff;
-        border-radius: 20px;
+        border-radius: 18px;
         aspect-ratio: 1 / 1;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        padding: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         border: 2px solid #cbd5e1;
         transition: all 0.2s ease-in-out;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
     }
     .menu-card:hover {
-        transform: translateY(-4px);
+        transform: translateY(-2px);
         border-color: #3b82f6;
-        box-shadow: 0 6px 14px rgba(59,130,246,0.3);
+        box-shadow: 0 6px 14px rgba(59,130,246,0.4);
         background-color: #f8fafc;
     }
     .menu-card img {
-        width: 100%;
-        height: 100%;
+        width: 65%;
+        height: 65%;
         object-fit: contain;
-        margin-bottom: 1px;
+        margin-bottom: 4px;
     }
     .menu-card span {
         color: #0f172a;
         font-weight: 800;
-        font-size: 25px;
+        font-size: 16px;
         text-align: center;
     }
-    /* 로그인 버튼 글씨가 항상 선명하게 보이도록 색상 강제 고정 */
+
+    /* 모바일에서 터치하기 편한 버튼 및 입력창 디자인 고정 */
     div.stButton > button:first-child {
         background-color: #ffffff !important;
         color: #0f172a !important;
         font-weight: 800 !important;
         border: 2px solid #cbd5e1 !important;
+        min-height: 42px !important;
+        border-radius: 10px !important;
     }
     div.stButton > button:first-child:hover {
         background-color: #f1f5f9 !important;
         border-color: #3b82f6 !important;
         color: #1d4ed8 !important;
     }
+    
+    /* 모바일 입력창 가독성 향상 */
+    input {
+        border-radius: 8px !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# 🌟 3. 페이지 맨 위에 배치된 공식 플랫폼 문구 배너 (높이 축소)
+# 🌟 3. 모바일 최상단 공식 플랫폼 배너 (슬림한 높이와 세련된 폰트 크기)
 st.markdown("""
 <div style='
     text-align: center; 
-    background: linear-gradient(135deg, rgba(30, 58, 138, 0.5) 0%, rgba(15, 23, 42, 0.7) 100%); 
-    padding: 12px 20px; 
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%); 
+    padding: 14px 15px; 
     border-radius: 14px; 
-    margin-bottom: 20px; 
+    margin-bottom: 15px; 
     border: 1px solid rgba(59, 130, 246, 0.4);
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 '>
-    <h2 style='color: #93c5fd; font-weight: 800; font-size: 30px; margin: 0; letter-spacing: 0.5px;'>
+    <h2 style='color: #93c5fd; font-weight: 800; font-size: 22px; margin: 0; letter-spacing: 0.5px;'>
         2026 KAIF Official mobile platform
     </h2>
 </div>
 """, unsafe_allow_html=True)
 
-# 4. 상단 헤더 영역 (좌측: logo.png 및 WELCOME 문구, 우측: 슬림해진 로그인 패널)
-col_title, col_login = st.columns([1.8, 2.2])
+# 4. 상단 헤더 영역 (모바일 화면에 맞춰 세로로 정렬되거나 컴팩트하게 배치)
+col_title, col_login = st.columns([1.5, 2.5])
 
 with col_title:
     try:
-        st.image("logo.png", width=220)
+        st.image("logo.png", width=160)
     except:
-        st.markdown("<h3 style='color:white;'>KAIF 2026</h3>", unsafe_allow_html=True)
+        st.markdown("<h4 style='color:white; margin:0;'>KAIF 2026</h4>", unsafe_allow_html=True)
     
-    st.markdown("<p style='font-size:20px; font-weight:800; color:#93c5fd; margin-top:-16px; margin-bottom:0px; letter-spacing: 0.5px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:13px; font-weight:800; color:#93c5fd; margin-top:2px; margin-bottom:10px;'>WELCOME TO 2026 KAIF</p>", unsafe_allow_html=True)
 
 with col_login:
     if not st.session_state.logged_in:
-        st.markdown("<p style='font-size:15px; font-weight:bold; color:#93c5fd; margin-bottom:4px; text-align:right;'>👤 참가자 정보 등록 및 로그인 / Login & Register</p>", unsafe_allow_html=True)
+        st.markdown("<p style='font-size:12px; font-weight:bold; color:#93c5fd; margin-bottom:2px; text-align:right;'>👤 참가자 정보 등록 및 로그인</p>", unsafe_allow_html=True)
         login_email = st.text_input("이메일", placeholder="이메일 / Email", label_visibility="collapsed")
         c_name, c_country = st.columns(2)
         with c_name:
@@ -126,18 +145,7 @@ with col_login:
         with c_country:
             input_country = st.text_input("국가", placeholder="국가 / Country", label_visibility="collapsed")
             
-        st.markdown("""
-        <style>
-            div.stButton > button:first-child {
-                min-height: 38px !important;
-                height: 38px !important;
-                padding-top: 4px !important;
-                padding-bottom: 4px !important;
-            }
-        </style>
-        """, unsafe_allow_html=True)
-        
-        if st.button("로그인 / 등록 완료 (Login / Register Complete)", use_container_width=True):
+        if st.button("로그인 / 등록 완료", use_container_width=True):
             if login_email and input_name and input_country:
                 st.session_state.logged_in = True
                 st.session_state.current_user = login_email
@@ -145,17 +153,17 @@ with col_login:
                 st.session_state.user_country = input_country
                 st.rerun()
             else:
-                st.warning("이메일, 성명, 국가를 모두 입력해주세요.")
+                st.warning("모든 정보를 입력해주세요.")
     else:
         st.markdown(f"""
-        <div style='text-align:right; background-color:rgba(30, 41, 59, 0.8); padding:10px; border-radius:12px; border:1px solid #3b82f6;'>
-            <p style='font-size:12px; color:#93c5fd; margin:0;'>접속 계정: <b>{st.session_state.current_user}</b></p>
-            <p style='font-size:12px; color:#ffffff; margin:2px 0 4px 0;'>등록 정보: <b>{st.session_state.user_name} ({st.session_state.user_country})</b></p>
+        <div style='text-align:right; background-color:rgba(30, 41, 59, 0.8); padding:8px; border-radius:10px; border:1px solid #3b82f6; margin-bottom:5px;'>
+            <p style='font-size:11px; color:#93c5fd; margin:0;'>계정: <b>{st.session_state.current_user}</b></p>
+            <p style='font-size:11px; color:#ffffff; margin:2px 0 0 0;'>정보: <b>{st.session_state.user_name} ({st.session_state.user_country})</b></p>
         </div>
         """, unsafe_allow_html=True)
         
         if st.session_state.current_user == "superbjy12@gmail.com":
-            if st.button("🛡️ 관리자 대시보드 열기", use_container_width=True):
+            if st.button("🛡️ 관리자 대시보드", use_container_width=True):
                 st.session_state.active_page = "admin"
                 st.rerun()
                 
@@ -170,10 +178,10 @@ st.write("---")
 
 # 5. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
-    # 2x3 클릭 가능한 커스텀 이미지 아이콘 카드 그리드 생성 함수
+    # 2x3 모바일 최적화 메뉴 카드 그리드
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
-        img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:32px; margin-bottom:8px;">📌</div>'
+        img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:28px; margin-bottom:4px;">📌</div>'
         html_code = f"""
         <a href="?page={page_name}" target="_self" style="text-decoration: none;">
             <div class="menu-card">
