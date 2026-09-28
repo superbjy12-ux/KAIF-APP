@@ -32,7 +32,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# 2. 모바일 최적화 및 카드/배너 정렬 CSS
+# 2. 모바일 최적화 및 카드 배경 제거 CSS
 st.markdown("""
 <style>
     .stApp {
@@ -65,37 +65,32 @@ st.markdown("""
         padding: 0px !important;
     }
 
-    /* 메뉴 카드 디자인 최적화 (모바일 화면에 쏙 들어가게 조정) */
+    /* 🌟 배경 박스(흰색 카드)를 완전히 없애고 투명하게 처리 */
     .menu-card {
-        background-color: #ffffff;
-        border-radius: 12px;
-        aspect-ratio: 1 / 1.05;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 2px;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-        border: 2px solid #cbd5e1;
+        padding: 4px;
         transition: all 0.2s ease-in-out;
         margin-bottom: 6px;
     }
     .menu-card:hover {
         transform: translateY(-2px);
-        border-color: #3b82f6;
-        box-shadow: 0 5px 12px rgba(59,130,246,0.4);
-        background-color: #f8fafc;
     }
     .menu-card img {
-        width: 46%;
-        height: 46%;
+        width: 55%;
+        height: 55%;
         object-fit: contain;
-        margin-bottom: 2px;
+        margin-bottom: 4px;
     }
     .menu-card span {
-        color: #0f172a;
-        font-weight: 800;
-        font-size: 10.5px;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 11.5px;
         text-align: center;
     }
 
@@ -117,7 +112,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 최상단 공식 플랫폼 배너 (스마트폰 화면에 잘리지 않도록 글씨 크기 18px 및 여백 적용)
+# 3. 최상단 공식 플랫폼 배너
 st.markdown("""
 <div style='
     text-align: center; 
@@ -189,7 +184,7 @@ st.write("---")
 
 # 5. 화면 라우팅 (메인 홈 vs 상세 페이지)
 if st.session_state.active_page == "home":
-    # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 나란히 고정)
+    # 2x3 모바일 최적화 메뉴 카드 그리드 (가로 3개 나란히 고정, 배경 없음)
     def render_card(title, img_filename, page_name):
         b64_img = get_base64_image(img_filename)
         img_tag = f'<img src="data:image/png;base64,{b64_img}" alt="{title}">' if b64_img else f'<div style="font-size:18px; margin-bottom:2px;">📌</div>'
